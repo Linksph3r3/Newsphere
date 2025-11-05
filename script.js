@@ -1,5 +1,6 @@
-const apiKey = "YOUR_NEWSAPI_KEY"; // 🔑 Replace this with your real NewsAPI.org key
+const apiKey = "c46d03e6c94847aeb3e0c3f70f777dd4";
 const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&apiKey=${apiKey}`;
+
 
 async function loadNews() {
   const container = document.getElementById("news-container");
