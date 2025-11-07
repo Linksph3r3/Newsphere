@@ -1,15 +1,15 @@
 body {
   font-family: "Segoe UI", Arial, sans-serif;
-  background: #f8f9fa;
-  color: #222;
+  background: #000000;
+  color: #867e7e;
   margin: 0;
   padding: 0;
 }
 
 header {
   text-align: center;
-  background: #1e88e5;
-  color: white;
+  background: #f88d01;
+  color: rgb(252, 252, 252);
   padding: 1.5rem 1rem;
 }
 
@@ -57,7 +57,7 @@ header h1 {
 footer {
   text-align: center;
   padding: 1rem;
-  background: #1e88e5;
+  background: #f88d01;
   color: white;
   font-size: 0.9rem;
 }
