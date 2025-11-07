@@ -30,7 +30,12 @@ async function loadCategoryNews(containerId, url) {
       `;
       container.appendChild(item);
     });
-  } catch (err) {
+  }
+  
+  const url = `https://gnews.io/api/v4/top-headlines?topic=${category}&lang=en&max=3&token=${API_KEY}`;
+
+  
+  catch (err) {
     container.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
   }
 }
