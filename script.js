@@ -1,43 +1,52 @@
 const apiKey = "1d92a3b191291724c295c9c5ea3f68a4";
 const proxy = "https://api.allorigins.win/raw?url=";
-const gnewsUrl = `https://gnews.io/api/v4/top-headlines?lang=en&max=6&apikey=${apiKey}`;
 
-async function loadNews() {
-  const container = document.getElementById("newsContainer");
-  const updated = document.getElementById("lastUpdated");
+// 3 categories
+const endpoints = {
+  global: `https://gnews.io/api/v4/top-headlines?lang=en&max=6&apikey=${apiKey}`,
+  entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=6&apikey=${apiKey}`,
+  sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=6&apikey=${apiKey}`,
+};
 
+async function loadCategoryNews(containerId, url) {
+  const container = document.getElementById(containerId);
   try {
-    container.innerHTML = "<p>Refreshing world news...</p>";
-
-    // Encode the GNews URL through the proxy
-    const res = await fetch(`${proxy}${encodeURIComponent(gnewsUrl)}`);
+    container.innerHTML = "<p>Loading...</p>";
+    const res = await fetch(`${proxy}${encodeURIComponent(url)}`);
     if (!res.ok) throw new Error("Network error");
     const data = await res.json();
 
     if (!data.articles || data.articles.length === 0)
-      throw new Error("No news available right now.");
+      throw new Error("No articles available.");
 
     container.innerHTML = "";
     data.articles.forEach(article => {
       const item = document.createElement("div");
       item.className = "news-item";
       item.innerHTML = `
+        ${article.image ? `<img src="${article.image}" alt="News Image">` : ""}
         <h3>${article.title}</h3>
-        ${article.image ? `<img src="${article.image}" alt="News Image" style="width:100%; border-radius:8px; margin:0.5rem 0;">` : ""}
         <p>${article.description || ""}</p>
-        <a href="${article.url}" target="_blank">Read full article →</a>
+        <a href="${article.url}" target="_blank">Read →</a>
       `;
       container.appendChild(item);
     });
-
-    if (updated)
-      updated.textContent = "Last updated: " + new Date().toLocaleString();
-
   } catch (err) {
-    container.innerHTML = `<p style="color:red;">Unable to load global news at the moment.<br>${err.message}</p>`;
+    container.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
   }
 }
 
-// Run immediately + every 3 hours
-loadNews();
-setInterval(loadNews, 3 * 60 * 60 * 1000);
+async function loadAllNews() {
+  document.getElementById("lastUpdated").textContent = "Updating news...";
+  await Promise.all([
+    loadCategoryNews("globalNews", endpoints.global),
+    loadCategoryNews("entertainmentNews", endpoints.entertainment),
+    loadCategoryNews("sportsNews", endpoints.sports),
+  ]);
+  document.getElementById("lastUpdated").textContent =
+    "Last updated: " + new Date().toLocaleString();
+}
+
+// Load initially + every 3 hours
+loadAllNews();
+setInterval(loadAllNews, 3 * 60 * 60 * 1000);
