@@ -1,18 +1,17 @@
 const apiKey = "1d92a3b191291724c295c9c5ea3f68a4";
-const proxy = "https://api.allorigins.win/raw?url=";
 
 // 3 categories
 const endpoints = {
-  global: `https://gnews.io/api/v4/top-headlines?lang=en&max=6&apikey=${apiKey}`,
-  entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=6&apikey=${apiKey}`,
-  sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=6&apikey=${apiKey}`,
+  global: `https://gnews.io/api/v4/top-headlines?lang=en&max=3&token=${apiKey}`,
+  entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=3&token=${apiKey}`,
+  sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=3&token=${apiKey}`,
 };
 
 async function loadCategoryNews(containerId, url) {
   const container = document.getElementById(containerId);
   try {
     container.innerHTML = "<p>Loading...</p>";
-    const res = await fetch(`${proxy}${encodeURIComponent(url)}`);
+    const res = await fetch(url);
     if (!res.ok) throw new Error("Network error");
     const data = await res.json();
 
