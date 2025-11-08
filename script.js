@@ -1,6 +1,6 @@
 const apiKey = "1d92a3b191291724c295c9c5ea3f68a4";
 
-// 3 categories
+// Define the news endpoints for 3 categories
 const endpoints = {
   global: `https://gnews.io/api/v4/top-headlines?lang=en&max=3&token=${apiKey}`,
   entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=3&token=${apiKey}`,
@@ -11,9 +11,14 @@ async function loadCategoryNews(containerId, url) {
   const container = document.getElementById(containerId);
   try {
     container.innerHTML = "<p>Loading...</p>";
-    const res = await fetch(url);
+
+    // Use AllOrigins proxy to bypass CORS
+    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
     if (!res.ok) throw new Error("Network error");
-    const data = await res.json();
+
+    // Parse nested JSON from proxy
+    const raw = await res.json();
+    const data = JSON.parse(raw.contents);
 
     if (!data.articles || data.articles.length === 0)
       throw new Error("No articles available.");
@@ -36,16 +41,19 @@ async function loadCategoryNews(containerId, url) {
 }
 
 async function loadAllNews() {
-  document.getElementById("lastUpdated").textContent = "Updating news...";
+  const updateText = document.getElementById("lastUpdated");
+  if (updateText) updateText.textContent = "Updating news...";
+
   await Promise.all([
     loadCategoryNews("globalNews", endpoints.global),
     loadCategoryNews("entertainmentNews", endpoints.entertainment),
     loadCategoryNews("sportsNews", endpoints.sports),
   ]);
-  document.getElementById("lastUpdated").textContent =
-    "Last updated: " + new Date().toLocaleString();
+
+  if (updateText)
+    updateText.textContent = "Last updated: " + new Date().toLocaleString();
 }
 
-// Load initially + every 3 hours
+// Load initially and then every 3 hours
 loadAllNews();
 setInterval(loadAllNews, 3 * 60 * 60 * 1000);
