@@ -7,24 +7,17 @@ const endpoints = {
   sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=3&token=${apiKey}`,
 };
 
-// Load news by category
+// Use AllOrigins proxy (raw)
+const proxy = "https://api.allorigins.win/raw?url=";
+
+// Load category
 async function loadCategoryNews(containerId, url) {
   const container = document.getElementById(containerId);
   container.innerHTML = "<p>Loading...</p>";
 
   try {
-    // Try direct fetch first
-    let res = await fetch(url);
-
-    // If blocked by CORS, use AllOrigins proxy
-    if (!res.ok) {
-      console.warn(`Direct fetch failed for ${containerId}, retrying with proxy...`);
-      res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-      const raw = await res.json();
-      const data = JSON.parse(raw.contents);
-      renderNews(container, data);
-      return;
-    }
+    const res = await fetch(`${proxy}${encodeURIComponent(url)}`);
+    if (!res.ok) throw new Error("Network error");
 
     const data = await res.json();
     renderNews(container, data);
@@ -35,7 +28,7 @@ async function loadCategoryNews(containerId, url) {
   }
 }
 
-// Render function
+// Render news items
 function renderNews(container, data) {
   if (!data.articles || data.articles.length === 0) {
     container.innerHTML = "<p>No articles available.</p>";
@@ -56,7 +49,7 @@ function renderNews(container, data) {
   });
 }
 
-// Load all 3 categories
+// Load all
 async function loadAllNews() {
   const updateText = document.getElementById("lastUpdated");
   if (updateText) updateText.textContent = "Updating news...";
@@ -71,6 +64,6 @@ async function loadAllNews() {
     updateText.textContent = "Last updated: " + new Date().toLocaleString();
 }
 
-// Load initially and refresh every 3 hours
+// Load on start + every 3 hours
 loadAllNews();
 setInterval(loadAllNews, 3 * 60 * 60 * 1000);
