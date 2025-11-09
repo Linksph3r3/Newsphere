@@ -1,4 +1,4 @@
-const API_KEY = "YOUR_GNEWS_API_KEY"; 1d92a3b191291724c295c9c5ea3f68a4
+const API_KEY = "1d92a3b191291724c295c9c5ea3f68a4"; 
 
 async function fetchNews(topic, containerId) {
   const url = `https://gnews.io/api/v4/top-headlines?topic=${topic}&lang=en&max=6&token=${API_KEY}`;
