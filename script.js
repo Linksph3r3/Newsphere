@@ -1,26 +1,21 @@
 const apiKey = "1d92a3b191291724c295c9c5ea3f68a4";
 
-// Define endpoints for each section
+// Define endpoints
 const endpoints = {
   global: `https://gnews.io/api/v4/top-headlines?lang=en&max=3&token=${apiKey}`,
   entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=3&token=${apiKey}`,
   sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=3&token=${apiKey}`,
 };
 
-// Load news by category using a proxy to bypass CORS
+// Load news by category
 async function loadCategoryNews(containerId, url) {
   const container = document.getElementById(containerId);
   container.innerHTML = "<p>Loading...</p>";
 
   try {
-    // Always use proxy
-    const proxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(url);
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error("Failed to fetch through proxy");
-
-    const raw = await res.json();
-    const data = JSON.parse(raw.contents);
-
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch data");
+    const data = await res.json();
     renderNews(container, data);
   } catch (err) {
     console.error("Error loading news:", err);
@@ -28,7 +23,7 @@ async function loadCategoryNews(containerId, url) {
   }
 }
 
-// Render the fetched news into the section
+// Render news items
 function renderNews(container, data) {
   if (!data.articles || data.articles.length === 0) {
     container.innerHTML = "<p>No articles available.</p>";
@@ -49,7 +44,7 @@ function renderNews(container, data) {
   });
 }
 
-// Load all 3 categories
+// Load all categories
 async function loadAllNews() {
   const updateText = document.getElementById("lastUpdated");
   if (updateText) updateText.textContent = "Updating news...";
@@ -64,6 +59,6 @@ async function loadAllNews() {
     updateText.textContent = "Last updated: " + new Date().toLocaleString();
 }
 
-// Load initially and refresh every 3 hours
+// Load initially + refresh every 3 hours
 loadAllNews();
 setInterval(loadAllNews, 3 * 60 * 60 * 1000);

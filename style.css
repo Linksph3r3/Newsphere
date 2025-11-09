@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   background-color: #000000;
-  color: #ffffff; /* changed from #333 */
+  color: #ffffff;
 }
 
 header {
@@ -42,14 +42,14 @@ main {
 
 .news-item {
   flex: 0 0 300px;
-  background: #111; /* darker gray for contrast on black background */
+  background: #111;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(255,123,0,0.2);
   padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #fff; /* ensure text inside cards stays visible */
+  color: #fff;
 }
 
 .news-item img {
@@ -87,22 +87,4 @@ footer {
   text-align: center;
   margin: 2rem 0;
   color: #ff7b00;
-}
-
-/* Center and style the ad banners */
-.ad-banner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 2rem 0;
-  padding: 70px;
-  background: #111;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(255, 123, 0, 0.2);
-}
-
-.ad-banner iframe,
-.ad-banner script {
-  display: block;
-  margin: 0 auto;
 }
