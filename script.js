@@ -1,46 +1,43 @@
-const API_KEY = "YOUR_GNEWS_API_KEY"; // 1d92a3b191291724c295c9c5ea3f68a4
-const BASE_URL = "https://gnews.io/api/v4/top-headlines";
+const API_KEY = "YOUR_GNEWS_API_KEY"; // replace with your real key
 
-async function fetchNews(category, containerId) {
+async function fetchNews(topic, containerId) {
+  const url = `https://gnews.io/api/v4/top-headlines?topic=${topic}&lang=en&max=6&token=${API_KEY}`;
+  const container = document.getElementById(containerId);
+  container.innerHTML = "<p>Loading...</p>";
+
   try {
-    const response = await fetch(
-      `${BASE_URL}?category=${category}&lang=en&max=6&apikey=${API_KEY}`
-    );
+    const res = await fetch(url);
 
-    if (!response.ok) throw new Error("Failed to fetch");
+    if (!res.ok) {
+      throw new Error(`Failed to load ${topic} news (${res.status})`);
+    }
 
-    const data = await response.json();
-    const container = document.getElementById(containerId);
+    const data = await res.json();
     container.innerHTML = "";
 
     data.articles.forEach(article => {
       const item = document.createElement("div");
-      item.classList.add("news-item");
+      item.className = "news-item";
       item.innerHTML = `
-        <img src="${article.image || 'https://via.placeholder.com/300x160'}" alt="">
+        ${article.image ? `<img src="${article.image}" alt="">` : ""}
         <h3>${article.title}</h3>
-        <p>${article.description || 'No description available.'}</p>
-        <a href="${article.url}" target="_blank">Read more →</a>
+        <p>${article.description || ""}</p>
+        <a href="${article.url}" target="_blank">Read →</a>
       `;
       container.appendChild(item);
     });
+
   } catch (err) {
-    console.error(err);
-    document.getElementById(containerId).innerHTML =
-      "<p style='text-align:center; color:red;'>Failed to load news.</p>";
+    console.error("Error:", err);
+    container.innerHTML = `<p style="color:red;">Error loading ${topic} news.</p>`;
   }
 }
 
 function updateAll() {
-  fetchNews("general", "globalNews");
+  fetchNews("world", "globalNews");
   fetchNews("entertainment", "entertainmentNews");
   fetchNews("sports", "sportsNews");
-  document.getElementById("lastUpdated").textContent =
-    "Last updated: " + new Date().toLocaleTimeString();
 }
 
-// Initial load
 updateAll();
-
-// Auto-refresh every 10 minutes
-setInterval(updateAll, 10 * 60 * 1000);
+setInterval(updateAll, 3 * 60 * 60 * 1000); // auto-refresh every 3h
