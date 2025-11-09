@@ -88,3 +88,21 @@ footer {
   margin: 2rem 0;
   color: #ff7b00;
 }
+
+/* Center and style the ad banners */
+.ad-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #111;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(255, 123, 0, 0.2);
+}
+
+.ad-banner iframe,
+.ad-banner script {
+  display: block;
+  margin: 0 auto;
+}
