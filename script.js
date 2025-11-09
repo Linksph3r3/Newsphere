@@ -1,43 +1,47 @@
-const API_KEY = "1d92a3b191291724c295c9c5ea3f68a4"; 
+const PROXY = "https://api.allorigins.win/get?url=";
+const API_KEY = "1d92a3b191291724c295c9c5ea3f68a4";
 
 async function fetchNews(topic, containerId) {
-  const url = `https://gnews.io/api/v4/top-headlines?topic=${topic}&lang=en&max=6&token=${API_KEY}`;
   const container = document.getElementById(containerId);
   container.innerHTML = "<p>Loading...</p>";
 
   try {
-    const res = await fetch(url);
+    const url = `https://gnews.io/api/v4/top-headlines?topic=${topic}&lang=en&max=6&token=${API_KEY}`;
+    const res = await fetch(PROXY + encodeURIComponent(url));
 
-    if (!res.ok) {
-      throw new Error(`Failed to load ${topic} news (${res.status})`);
+    if (!res.ok) throw new Error("Failed to load " + topic);
+    const raw = await res.json();
+    const data = JSON.parse(raw.contents);
+
+    if (!data.articles || !data.articles.length) {
+      container.innerHTML = "<p>No articles found.</p>";
+      return;
     }
 
-    const data = await res.json();
     container.innerHTML = "";
-
-    data.articles.forEach(article => {
+    data.articles.forEach(a => {
       const item = document.createElement("div");
       item.className = "news-item";
       item.innerHTML = `
-        ${article.image ? `<img src="${article.image}" alt="">` : ""}
-        <h3>${article.title}</h3>
-        <p>${article.description || ""}</p>
-        <a href="${article.url}" target="_blank">Read →</a>
+        ${a.image ? `<img src="${a.image}" alt="">` : ""}
+        <h3>${a.title}</h3>
+        <p>${a.description || ""}</p>
+        <a href="${a.url}" target="_blank">Read →</a>
       `;
       container.appendChild(item);
     });
-
   } catch (err) {
-    console.error("Error:", err);
-    container.innerHTML = `<p style="color:red;">Error loading ${topic} news.</p>`;
+    container.innerHTML = `<p style="color:red;">${err.message}</p>`;
   }
 }
 
-function updateAll() {
-  fetchNews("world", "globalNews");
-  fetchNews("entertainment", "entertainmentNews");
-  fetchNews("sports", "sportsNews");
+async function updateAll() {
+  await Promise.all([
+    fetchNews("world", "globalNews"),
+    fetchNews("entertainment", "entertainmentNews"),
+    fetchNews("sports", "sportsNews"),
+  ]);
 }
 
 updateAll();
-setInterval(updateAll, 3 * 60 * 60 * 1000); // auto-refresh every 3h
+setInterval(updateAll, 3 * 60 * 60 * 1000);
