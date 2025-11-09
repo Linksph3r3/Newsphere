@@ -1,64 +1,46 @@
-const apiKey = "1d92a3b191291724c295c9c5ea3f68a4";
+const API_KEY = "YOUR_GNEWS_API_KEY"; // 1d92a3b191291724c295c9c5ea3f68a4
+const BASE_URL = "https://gnews.io/api/v4/top-headlines";
 
-// Define endpoints
-const endpoints = {
-  global: `https://gnews.io/api/v4/top-headlines?lang=en&max=3&token=${apiKey}`,
-  entertainment: `https://gnews.io/api/v4/top-headlines?lang=en&topic=entertainment&max=3&token=${apiKey}`,
-  sports: `https://gnews.io/api/v4/top-headlines?lang=en&topic=sports&max=3&token=${apiKey}`,
-};
-
-// Load news by category
-async function loadCategoryNews(containerId, url) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = "<p>Loading...</p>";
-
+async function fetchNews(category, containerId) {
   try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Failed to fetch data");
-    const data = await res.json();
-    renderNews(container, data);
+    const response = await fetch(
+      `${BASE_URL}?category=${category}&lang=en&max=6&apikey=${API_KEY}`
+    );
+
+    if (!response.ok) throw new Error("Failed to fetch");
+
+    const data = await response.json();
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    data.articles.forEach(article => {
+      const item = document.createElement("div");
+      item.classList.add("news-item");
+      item.innerHTML = `
+        <img src="${article.image || 'https://via.placeholder.com/300x160'}" alt="">
+        <h3>${article.title}</h3>
+        <p>${article.description || 'No description available.'}</p>
+        <a href="${article.url}" target="_blank">Read more →</a>
+      `;
+      container.appendChild(item);
+    });
   } catch (err) {
-    console.error("Error loading news:", err);
-    container.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
+    console.error(err);
+    document.getElementById(containerId).innerHTML =
+      "<p style='text-align:center; color:red;'>Failed to load news.</p>";
   }
 }
 
-// Render news items
-function renderNews(container, data) {
-  if (!data.articles || data.articles.length === 0) {
-    container.innerHTML = "<p>No articles available.</p>";
-    return;
-  }
-
-  container.innerHTML = "";
-  data.articles.forEach(article => {
-    const item = document.createElement("div");
-    item.className = "news-item";
-    item.innerHTML = `
-      ${article.image ? `<img src="${article.image}" alt="News Image">` : ""}
-      <h3>${article.title}</h3>
-      <p>${article.description || ""}</p>
-      <a href="${article.url}" target="_blank">Read →</a>
-    `;
-    container.appendChild(item);
-  });
+function updateAll() {
+  fetchNews("general", "globalNews");
+  fetchNews("entertainment", "entertainmentNews");
+  fetchNews("sports", "sportsNews");
+  document.getElementById("lastUpdated").textContent =
+    "Last updated: " + new Date().toLocaleTimeString();
 }
 
-// Load all categories
-async function loadAllNews() {
-  const updateText = document.getElementById("lastUpdated");
-  if (updateText) updateText.textContent = "Updating news...";
+// Initial load
+updateAll();
 
-  await Promise.all([
-    loadCategoryNews("globalNews", endpoints.global),
-    loadCategoryNews("entertainmentNews", endpoints.entertainment),
-    loadCategoryNews("sportsNews", endpoints.sports),
-  ]);
-
-  if (updateText)
-    updateText.textContent = "Last updated: " + new Date().toLocaleString();
-}
-
-// Load initially + refresh every 3 hours
-loadAllNews();
-setInterval(loadAllNews, 3 * 60 * 60 * 1000);
+// Auto-refresh every 10 minutes
+setInterval(updateAll, 10 * 60 * 1000);
