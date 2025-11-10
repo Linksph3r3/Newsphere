@@ -1,47 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>News Bulletin</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>News Bulletin — Global Affairs · Sports · Entertainment</title>
+  <style>
+    :root{--bg:#f7f7f8;--card:#ffffff;--muted:#6b7280;--accent:#1f2937}
+    *{box-sizing:border-box}
+    body{font-family:Inter,ui-sans-serif,system-ui,Arial,sans-serif;background:var(--bg);color:var(--accent);margin:0}
+    header{background:linear-gradient(180deg,rgba(0,0,0,0.04),transparent);padding:24px 16px;border-bottom:1px solid rgba(0,0,0,0.04)}
+    .container{max-width:1100px;margin:0 auto;padding:22px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:48px;height:48px;border-radius:6px;background:#111;color:#fff;display:grid;place-items:center;font-weight:700}
+    nav{margin-top:12px}
+    nav a{margin-right:12px;text-decoration:none;color:var(--muted);font-weight:600}
+    main{padding:28px 0}
+    .section{margin-bottom:48px}
+    .section h2{margin:0 0 12px 0;font-size:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(16,24,40,0.06);display:flex;flex-direction:column;height:100%}
+    .thumb{height:140px;background:#ddd;background-size:cover;background-position:center}
+    .card-body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .meta{font-size:12px;color:var(--muted)}
+    .title{font-weight:700;margin:0;font-size:16px}
+    .excerpt{flex:1;color:var(--muted);font-size:14px}
+    .read{margin-top:8px;text-decoration:none;color:#0f172a;font-weight:700;font-size:13px}
+    footer{padding:20px 0;color:var(--muted);font-size:13px;text-align:center}
+    @media (max-width:560px){.thumb{height:120px}}
+  </style>
 </head>
 <body>
   <header>
-    <h1>📰 Daily News Bulletin</h1>
-    <p>Auto-updated world, entertainment & sports headlines</p>
+    <div class="container">
+      <div class="brand">
+        <div class="logo">NB</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">News Bulletin</div>
+          <div style="font-size:13px;color:var(--muted)">One page · curated articles (manual updates)</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#global">Global Affairs</a>
+        <a href="#sports">Sports</a>
+        <a href="#entertainment">Entertainment</a>
+      </nav>
+    </div>
   </header>
 
-  <main>
-    <section class="news-section">
-      <h2>🌍 Global News</h2>
-      <div class="news-container" id="globalNews"></div>
+  <main class="container">
+    <!-- GLOBAL AFFAIRS -->
+    <section id="global" class="section">
+      <h2>Global Affairs</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/cop30/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">FT · Nov 10, 2025</div>
+            <h3 class="title">COP30 kicks off in Belém amid questions over major powers' participation</h3>
+            <div class="excerpt">The 30th UN climate summit opens in Brazil with several major economies sending limited delegations, raising questions about the ambition of new climate commitments.</div>
+            <a class="read" href="https://www.ft.com/content/a496a2bf-281b-4484-ac50-18a87c6a2adc" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/egypt/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Al Jazeera · Nov 9, 2025</div>
+            <h3 class="title">Egypt begins first round of parliamentary elections</h3>
+            <div class="excerpt">Voters head to the polls in the first round of Egypt’s House of Representatives elections, a closely watched vote with major implications for domestic politics.</div>
+            <a class="read" href="https://www.aljazeera.com/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/sudan/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Africa CDC · Nov 2, 2025</div>
+            <h3 class="title">Africa CDC dispatches emergency medical supplies after Sudan hospital attack</h3>
+            <div class="excerpt">Following a deadly attack on a maternity hospital in North Darfur, Africa CDC mobilises urgent medical supplies and support for affected communities.</div>
+            <a class="read" href="https://africacdc.org/news-item/africa-cdc-weekly-brief-26-october-2-november-2025/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/g20/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">G20 · Nov 22–23, 2025</div>
+            <h3 class="title">G20 to meet in Johannesburg later this month</h3>
+            <div class="excerpt">The 2025 G20 Leaders' Summit will be the first on the African continent, focusing on solidarity, equality and sustainability.</div>
+            <a class="read" href="https://en.wikipedia.org/wiki/2025_G20_Johannesburg_summit" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <div class="ad-banner">Advertisement</div>
+    <!-- SPORTS -->
+    <section id="sports" class="section">
+      <h2>Sports</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/man-city/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Reuters · Nov 9, 2025</div>
+            <h3 class="title">Man City outclass Liverpool to close gap at top of Premier League</h3>
+            <div class="excerpt">A strong performance in a high-profile fixture saw Manchester City strengthen their position in the title race, while rival clubs dropped crucial points.</div>
+            <a class="read" href="https://www.reuters.com/sports/soccer/villa-rise-after-thrashing-bournemouth-newcastle-lose-brentford-2025-11-09/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
 
-    <section class="news-section">
-      <h2>🎬 Entertainment</h2>
-      <div class="news-container" id="entertainmentNews"></div>
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/fifa/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">AP · Nov 8, 2025</div>
+            <h3 class="title">FIFA to hold playoff draw for final 2026 World Cup spots</h3>
+            <div class="excerpt">FIFA will host draws on Nov. 20 in Zurich to determine playoff brackets for the remaining places at the expanded 48‑team 2026 World Cup.</div>
+            <a class="read" href="https://apnews.com/article/fifa-world-cup-qualifying-playoffs-draw-59769c709b8e6cbbee737d75e3b70660" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/legend/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Reuters · Nov 10, 2025</div>
+            <h3 class="title">Basketball legend Lenny Wilkens dies at 88</h3>
+            <div class="excerpt">Lenny Wilkens, Hall of Famer as both player and coach, passed away; remembering his impact on the game across decades.</div>
+            <a class="read" href="https://www.reuters.com/sports/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/premier/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">The Guardian · Nov 10, 2025</div>
+            <h3 class="title">Premier League: 10 talking points from the weekend</h3>
+            <div class="excerpt">A roundup of key storylines from the weekend’s English top-flight action — form, youth breakthroughs and tactical trends.</div>
+            <a class="read" href="https://www.theguardian.com/football/2025/nov/10/premier-league-10-talking-points-from-the-weekends-football" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+      </div>
     </section>
 
-    <div class="ad-banner">Advertisement</div>
+    <!-- ENTERTAINMENT -->
+    <section id="entertainment" class="section">
+      <h2>Entertainment</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/streaming/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Boston.com · Nov 5, 2025</div>
+            <h3 class="title">All the new movies and TV streaming in November 2025</h3>
+            <div class="excerpt">A comprehensive list of notable streaming premieres this month, including major new seasons and holiday titles across services.</div>
+            <a class="read" href="https://www.boston.com/culture/streaming/2025/11/05/new-movies-tv-streaming-november-2025/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
 
-    <section class="news-section">
-      <h2>⚽ Sports</h2>
-      <div class="news-container" id="sportsNews"></div>
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/fantastic/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">Variety · Nov 1, 2025</div>
+            <h3 class="title">Best new movies streaming this November</h3>
+            <div class="excerpt">Variety highlights the most anticipated streaming movies this month, from franchise installments to festival favorites.</div>
+            <a class="read" href="https://variety.com/lists/best-movies-streaming-november-2025/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/stranger/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">TheWrap · Nov 8, 2025</div>
+            <h3 class="title">Top new movies and streaming picks for November</h3>
+            <div class="excerpt">A curated list of standout movies and series to watch this month, including returning hits and new originals.</div>
+            <a class="read" href="https://www.thewrap.com/best-new-streaming-movies-november-2025/" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb" style="background-image:url('https://picsum.photos/seed/blake/800/400')"></div>
+          <div class="card-body">
+            <div class="meta">People / Mar 7, 2025</div>
+            <h3 class="title">Blake Lively debuts at SXSW premiere for 'Another Simple Favor'</h3>
+            <div class="excerpt">Blake Lively appeared at the SXSW festival premiere of a sequel, marking a notable red carpet return amid ongoing legal headlines.</div>
+            <a class="read" href="https://people.com/blake-lively-attends-sxsw-premiere-of-another-simple-favor-amid-legal-battle-11690773" target="_blank" rel="noopener">Read original →</a>
+          </div>
+        </article>
+      </div>
     </section>
-
-    
-    <div class="ad-banner">Advertisement</div>
-
-    <p id="lastUpdated" style="text-align:center; margin:2rem 0; color:#aaa;"></p>
   </main>
 
   <footer>
-    <p>© 2025 News Bulletin | Powered by GNews API</p>
+    <div class="container">© News Bulletin — curated articles. Manually update the cards' content and links at any time.</div>
   </footer>
 
-  <script src="script.js"></script>
 </body>
 </html>
