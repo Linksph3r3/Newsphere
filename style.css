@@ -1,8 +1,8 @@
 :root {
-  --bg: #000000;
+  --bg: #f7f7f8;
   --card: #ffffff;
   --muted: #6b7280;
-  --accent: #fd6500;
+  --accent: #ff7b00;
 }
 
 * {
@@ -38,12 +38,11 @@ header {
   width: 48px;
   height: 48px;
   border-radius: 6px;
-  background: #000000;
+  background: #111;
   color: #fff;
   display: grid;
   place-items: center;
   font-weight: 700;
-  ;
 }
 
 nav {
