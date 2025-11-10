@@ -1,8 +1,8 @@
 :root {
   --bg: #f7f7f8;
-  --card: #ffffff46;
+  --card: #ffffff2a;
   --muted: #000000;
-  --accent: #ff7b00;
+  --accent: #000000;
 }
 
 * {
@@ -87,7 +87,7 @@ main {
 
 .thumb {
   height: 140px;
-  background: #ddd;
+  background: #dddddd44;
   background-size: cover;
   background-position: center;
 }
